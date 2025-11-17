@@ -1,0 +1,369 @@
+// Prisma Schema for Sanitary Platform
+// Database: PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String
+  firstName     String
+  lastName      String
+  role          UserRole @default(ARCHITECT)
+  company       String?
+  phone         String?
+  
+  isActive      Boolean  @default(true)
+  emailVerified Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  plans         Plan[]
+  quotes        Quote[]
+  products      Product[]
+  refreshTokens RefreshToken[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ARCHITECT
+  SUPPLIER
+  CLIENT
+  ADMIN
+}
+
+// Refresh Token for JWT
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("refresh_tokens")
+}
+
+// Plan (2D/3D Building Plan)
+model Plan {
+  id              String   @id @default(uuid())
+  name            String
+  description     String?
+  originalFileName String
+  fileUrl         String
+  fileType        FileType
+  fileSize        Int
+  
+  // Metadata
+  buildingType    String?
+  floor           String?
+  area            Float?
+  
+  // Processing status
+  status          PlanStatus @default(UPLOADED)
+  processingError String?
+  
+  userId          String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  
+  // Relations
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  detectedProducts DetectedProduct[]
+  quotes          Quote[]
+  
+  @@map("plans")
+}
+
+enum FileType {
+  DWG
+  DXF
+  OBJ
+  FBX
+  STL
+  IFC
+}
+
+enum PlanStatus {
+  UPLOADED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// Detected Product in a Plan
+model DetectedProduct {
+  id          String   @id @default(uuid())
+  planId      String
+  productId   String?
+  
+  // Detection metadata
+  type        ProductType
+  name        String?
+  confidence  Float?
+  
+  // 3D Coordinates
+  posX        Float
+  posY        Float
+  posZ        Float
+  
+  // Dimensions
+  width       Float?
+  height      Float?
+  depth       Float?
+  
+  // Bounding box
+  boundingBox Json?
+  
+  // Rotation
+  rotX        Float    @default(0)
+  rotY        Float    @default(0)
+  rotZ        Float    @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  plan        Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  quoteItems  QuoteItem[]
+  
+  @@map("detected_products")
+}
+
+// Product Catalog
+model Product {
+  id              String   @id @default(uuid())
+  reference       String   @unique
+  name            String
+  description     String?
+  type            ProductType
+  brand           String?
+  
+  // Pricing
+  basePrice       Float
+  currency        String   @default("EUR")
+  
+  // Dimensions
+  width           Float?
+  height          Float?
+  depth           Float?
+  weight          Float?
+  
+  // Technical specs
+  specifications  Json?
+  
+  // 3D Asset
+  asset3DId       String?
+  thumbnailUrl    String?
+  
+  // Supplier info
+  supplierId      String
+  supplierSKU     String?
+  
+  // Stock & availability
+  inStock         Boolean  @default(true)
+  leadTime        Int?     // days
+  
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  supplier        User     @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  asset3D         Asset3D? @relation(fields: [asset3DId], references: [id], onDelete: SetNull)
+  materials       ProductMaterial[]
+  detectedProducts DetectedProduct[]
+  quoteItems      QuoteItem[]
+  
+  @@map("products")
+}
+
+enum ProductType {
+  TOILET
+  SINK
+  FAUCET
+  SHOWER
+  BATHTUB
+  BIDET
+  URINAL
+  WASHBASIN
+  SHOWER_TRAY
+  SHOWER_CABIN
+  ACCESSORIES
+  OTHER
+}
+
+// Product Materials
+model ProductMaterial {
+  id          String   @id @default(uuid())
+  productId   String
+  name        String
+  type        MaterialType
+  color       String?
+  finish      String?
+  textureUrl  String?
+  
+  // PBR Properties
+  metalness   Float?
+  roughness   Float?
+  
+  properties  Json?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@map("product_materials")
+}
+
+enum MaterialType {
+  CERAMIC
+  PORCELAIN
+  METAL
+  CHROME
+  BRASS
+  STAINLESS_STEEL
+  PLASTIC
+  ACRYLIC
+  STONE
+  WOOD
+  GLASS
+  COMPOSITE
+  OTHER
+}
+
+// 3D Assets
+model Asset3D {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  fileUrl     String
+  format      Asset3DFormat
+  fileSize    Int
+  
+  // Metadata
+  vertices    Int?
+  polygons    Int?
+  
+  // Bounding box
+  boundingBox Json?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  products    Product[]
+  
+  @@map("assets_3d")
+}
+
+enum Asset3DFormat {
+  OBJ
+  FBX
+  GLTF
+  GLB
+  STL
+  COLLADA
+}
+
+// Quote
+model Quote {
+  id              String   @id @default(uuid())
+  reference       String   @unique
+  planId          String
+  userId          String
+  
+  // Quote details
+  title           String
+  description     String?
+  
+  // Pricing
+  subtotal        Float
+  tax             Float    @default(0)
+  discount        Float    @default(0)
+  total           Float
+  currency        String   @default("EUR")
+  
+  // Status
+  status          QuoteStatus @default(DRAFT)
+  
+  // Validity
+  validUntil      DateTime?
+  
+  // Client approval
+  approvedAt      DateTime?
+  approvedBy      String?
+  
+  // Notes
+  notes           String?
+  termsConditions String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  plan            Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items           QuoteItem[]
+  
+  @@map("quotes")
+}
+
+enum QuoteStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+// Quote Item
+model QuoteItem {
+  id                String   @id @default(uuid())
+  quoteId           String
+  detectedProductId String?
+  productId         String
+  
+  // Item details
+  name              String
+  reference         String
+  description       String?
+  
+  // Pricing
+  unitPrice         Float
+  quantity          Int      @default(1)
+  discount          Float    @default(0)
+  total             Float
+  
+  // Custom options
+  selectedMaterial  String?
+  customOptions     Json?
+  
+  // Notes
+  notes             String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  quote             Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  detectedProduct   DetectedProduct? @relation(fields: [detectedProductId], references: [id], onDelete: SetNull)
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  
+  @@map("quote_items")
+}

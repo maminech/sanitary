@@ -1,0 +1,152 @@
+Project Specification – Sanitary Platform for Architects
+1. General Objective
+
+Create a web platform that allows architects to:
+
+Upload their 2D/3D house plans.
+
+Receive automatic quotes based on sanitary products present in the plan.
+
+Visualize and interact with the plans in 3D using real materials and products.
+
+Select alternatives directly on the plan and update the quote in real time.
+
+Allow clients to visualize the final result and let architects customize products before generating the final quote.
+
+2. Users
+
+Architects
+
+Upload 2D/3D plans.
+
+Select products and alternatives directly on the plan.
+
+Visualize the dynamic 3D plan.
+
+Generate and modify quotes in real time.
+
+Suppliers / Sanitary Companies
+
+Upload product database (reference, price, design, materials, color, dimensions).
+
+Continuous update of products.
+
+Clients (optional)
+
+Interactive 3D visualization with real materials and finishes.
+
+3. Main Features
+3.1 Plan Upload and Recognition
+
+Supported formats: 2D (DWG, DXF) and 3D (OBJ, FBX, STL).
+
+Automatic recognition of sanitary products in the plan.
+
+Extract dimensions and exact location for each product.
+
+3.2 Direct Selection on Plan
+
+Click on a product in the 3D plan → display similar alternatives (shape, color, design).
+
+Product modification → automatic update on 3D plan.
+
+Track change history for reference.
+
+3.3 Dynamic Quote
+
+Quote generated based on detected products and available alternatives.
+
+Updates automatically when architect changes a product.
+
+Products can be removed if the client does not want them.
+
+Final quote includes: reference, price, image, material.
+
+3.4 Interactive 3D for Clients
+
+Display real materials for each product.
+
+Real-time visualization of the complete plan.
+
+Rotate or explore the house interactively.
+
+3.5 Advanced Options
+
+Budget scenarios (low cost → premium) → automatic update of products and quote.
+
+Filter by style, brand, or material.
+
+Automatic suggestions of similar products to optimize design and cost.
+
+4. Technical Architecture
+4.1 Front-end
+
+Framework: React / Vue / Angular.
+
+3D rendering: Three.js / Babylon.js.
+
+Direct interaction on plan (click, drag & drop, live update).
+
+4.2 Back-end
+
+Framework: Node.js / Django / Laravel.
+
+RESTful API to manage products, plans, and quotes.
+
+Database: PostgreSQL / MongoDB (store products, plans, users).
+
+Product recognition and quote calculation algorithms.
+
+4.3 3D & Quote Integration
+
+Plan analysis → product detection → initial quote generation.
+
+Dynamic updates based on changes on the 3D plan.
+
+4.4 Security
+
+Architect/supplier authentication.
+
+Access permissions and role management.
+
+Backup of plans and quotes.
+
+5. User Workflow
+
+Architect creates an account → uploads plan.
+
+Platform analyzes the plan → detects products → generates initial quote.
+
+Architect clicks on products → selects alternatives → 3D plan updates in real time.
+
+Dynamic quote updates automatically.
+
+Architect validates or modifies products → final quote generated.
+
+Client can view 3D plan and approve choices.
+
+6. Deliverables
+
+Fully functional 2D/3D web platform.
+
+Product database with full CRUD capabilities.
+
+Dynamic quote module.
+
+User interface UX/UI for architects and suppliers.
+
+Technical and user documentation.
+
+7. Suggested Technologies
+
+Front-end: React + Three.js
+
+Back-end: Node.js + Express / Django
+
+Database: PostgreSQL / MongoDB
+
+3D File Storage: AWS S3 / Google Cloud Storage
+
+Authentication: JWT / OAuth2
+
+Deployment: Docker + Kubernetes / Cloud Provider
