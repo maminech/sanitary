@@ -26,6 +26,22 @@ vercel --prod --yes
 Set-Location $rootDir
 
 Write-Host "`n✅ Deployment complete!" -ForegroundColor Green
-Write-Host "`nFrontend URL will be shown above" -ForegroundColor Cyan
-Write-Host "Backend URL: https://sanitary-platform-backend.onrender.com" -ForegroundColor Cyan
+
+# Get and display the latest URL
+Write-Host "`n📋 Getting latest frontend URL..." -ForegroundColor Cyan
+Set-Location "$rootDir\frontend"
+$url = (vercel ls 2>&1 | Select-String -Pattern 'https://frontend-[a-z0-9]+-[a-z0-9-]+\.vercel\.app' | Select-Object -First 1).Matches.Value
+
+if ($url) {
+    Write-Host "`n🌐 Production URLs:" -ForegroundColor Green
+    Write-Host "   Frontend: $url" -ForegroundColor Yellow
+    Write-Host "   Backend:  https://sanitary-platform-backend.onrender.com" -ForegroundColor Yellow
+    Write-Host "`n🔗 Login Page: $url/login" -ForegroundColor Cyan
+    $url | Set-Clipboard
+    Write-Host "`n✅ URL copied to clipboard!" -ForegroundColor Green
+} else {
+    Write-Host "`nBackend URL: https://sanitary-platform-backend.onrender.com" -ForegroundColor Cyan
+}
+
+Set-Location $rootDir
 Write-Host "`n⚠️  Remember to update CORS_ORIGIN in Render if frontend URL changed!" -ForegroundColor Yellow

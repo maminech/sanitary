@@ -23,9 +23,11 @@ git push origin main
 ## 🌐 Live URLs
 
 ### Production
-- **Frontend**: https://frontend-lybgul2xm-aminech990000-6355s-projects.vercel.app
+- **Frontend**: https://frontend-jwxobm5q3-aminech990000-6355s-projects.vercel.app
 - **Backend**: https://sanitary-platform-backend.onrender.com
 - **Health**: https://sanitary-platform-backend.onrender.com/health
+
+> **Note**: Vercel generates new preview URLs on each deployment. Use the latest URL from `vercel ls` or bookmark the URL after deployment.
 
 ### Demo Accounts
 All passwords: `Password123!`
