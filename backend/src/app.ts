@@ -83,6 +83,12 @@ app.use(`${API_PREFIX}/plans`, planRoutes);
 app.use(`${API_PREFIX}/products`, productRoutes);
 app.use(`${API_PREFIX}/quotes`, quoteRoutes);
 
+// Temporary seed route (remove after first use)
+if (appConfig.server.env === 'production') {
+  const seedRoutes = require('./routes/seed.routes').default;
+  app.use(`${API_PREFIX}/seed`, seedRoutes);
+}
+
 /**
  * Root endpoint
  */

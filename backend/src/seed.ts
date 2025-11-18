@@ -286,4 +286,10 @@ const seedDatabase = async () => {
   }
 };
 
-seedDatabase();
+// Export for route usage
+export { seedDatabase };
+
+// Only run directly if this is the main module
+if (require.main === module) {
+  seedDatabase();
+}
