@@ -23,8 +23,8 @@ git push origin main
 ## 🌐 Live URLs
 
 ### Production (Permanent URLs)
-- **Frontend**: https://sanitary-platform.vercel.app
-- **Login**: https://sanitary-platform.vercel.app/login
+- **Frontend**: https://sanitary-aminech.vercel.app
+- **Login**: https://sanitary-aminech.vercel.app/login
 - **Backend**: https://sanitary-platform-backend.onrender.com
 - **Health**: https://sanitary-platform-backend.onrender.com/health
 

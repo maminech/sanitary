@@ -3,13 +3,13 @@
 ## 🌐 **Permanent Production URLs**
 
 ### ✅ **Frontend (Your Main URL)**
-**https://sanitary-platform.vercel.app**
+**https://sanitary-aminech.vercel.app**
 
-- **Login Page**: https://sanitary-platform.vercel.app/login
-- **Dashboard**: https://sanitary-platform.vercel.app/dashboard
-- **Plans**: https://sanitary-platform.vercel.app/plans
-- **Products**: https://sanitary-platform.vercel.app/products
-- **Quotes**: https://sanitary-platform.vercel.app/quotes
+- **Login Page**: https://sanitary-aminech.vercel.app/login
+- **Dashboard**: https://sanitary-aminech.vercel.app/dashboard
+- **Plans**: https://sanitary-aminech.vercel.app/plans
+- **Products**: https://sanitary-aminech.vercel.app/products
+- **Quotes**: https://sanitary-aminech.vercel.app/quotes
 
 ### 🔧 **Backend API**
 **https://sanitary-platform-backend.onrender.com**
@@ -73,7 +73,7 @@ git push origin main
 ## 📱 **Share Your Platform**
 
 Simply share this URL with anyone:
-**https://sanitary-platform.vercel.app**
+**https://sanitary-aminech.vercel.app**
 
 They can test with demo credentials or register a new account!
 
@@ -113,7 +113,7 @@ The domain **sanitary-platform.vercel.app** will always point to your latest dep
 
 ## 🎯 **Start Testing Now!**
 
-1. Open: **https://sanitary-platform.vercel.app/login**
+1. Open: **https://sanitary-aminech.vercel.app/login**
 2. Click "Architect" demo button
 3. Click "Sign In"
 4. Explore your platform! 🚀

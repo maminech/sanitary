@@ -34,14 +34,14 @@ $latestUrl = (vercel ls 2>&1 | Select-String -Pattern 'https://frontend-[a-z0-9]
 
 if ($latestUrl) {
     Write-Host "Assigning permanent domain to latest deployment..." -ForegroundColor Yellow
-    vercel alias set $latestUrl sanitary-platform.vercel.app 2>&1 | Out-Null
+    vercel alias set $latestUrl sanitary-aminech.vercel.app 2>&1 | Out-Null
 }
 
 Write-Host "`n🌐 Production URLs (Permanent):" -ForegroundColor Green
-Write-Host "   Frontend: https://sanitary-platform.vercel.app" -ForegroundColor Yellow
+Write-Host "   Frontend: https://sanitary-aminech.vercel.app" -ForegroundColor Yellow
 Write-Host "   Backend:  https://sanitary-platform-backend.onrender.com" -ForegroundColor Yellow
-Write-Host "`n🔗 Login Page: https://sanitary-platform.vercel.app/login" -ForegroundColor Cyan
-"https://sanitary-platform.vercel.app" | Set-Clipboard
+Write-Host "`n🔗 Login Page: https://sanitary-aminech.vercel.app/login" -ForegroundColor Cyan
+"https://sanitary-aminech.vercel.app" | Set-Clipboard
 Write-Host "`n✅ URL copied to clipboard!" -ForegroundColor Green
 
 Set-Location $rootDir
