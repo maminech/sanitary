@@ -27,21 +27,22 @@ Set-Location $rootDir
 
 Write-Host "`n✅ Deployment complete!" -ForegroundColor Green
 
-# Get and display the latest URL
-Write-Host "`n📋 Getting latest frontend URL..." -ForegroundColor Cyan
+# Get the latest deployment URL and set the alias
+Write-Host "`n📋 Setting up production alias..." -ForegroundColor Cyan
 Set-Location "$rootDir\frontend"
-$url = (vercel ls 2>&1 | Select-String -Pattern 'https://frontend-[a-z0-9]+-[a-z0-9-]+\.vercel\.app' | Select-Object -First 1).Matches.Value
+$latestUrl = (vercel ls 2>&1 | Select-String -Pattern 'https://frontend-[a-z0-9]+-[a-z0-9-]+\.vercel\.app' | Select-Object -First 1).Matches.Value
 
-if ($url) {
-    Write-Host "`n🌐 Production URLs:" -ForegroundColor Green
-    Write-Host "   Frontend: $url" -ForegroundColor Yellow
-    Write-Host "   Backend:  https://sanitary-platform-backend.onrender.com" -ForegroundColor Yellow
-    Write-Host "`n🔗 Login Page: $url/login" -ForegroundColor Cyan
-    $url | Set-Clipboard
-    Write-Host "`n✅ URL copied to clipboard!" -ForegroundColor Green
-} else {
-    Write-Host "`nBackend URL: https://sanitary-platform-backend.onrender.com" -ForegroundColor Cyan
+if ($latestUrl) {
+    Write-Host "Assigning permanent domain to latest deployment..." -ForegroundColor Yellow
+    vercel alias set $latestUrl sanitary-platform.vercel.app 2>&1 | Out-Null
 }
+
+Write-Host "`n🌐 Production URLs (Permanent):" -ForegroundColor Green
+Write-Host "   Frontend: https://sanitary-platform.vercel.app" -ForegroundColor Yellow
+Write-Host "   Backend:  https://sanitary-platform-backend.onrender.com" -ForegroundColor Yellow
+Write-Host "`n🔗 Login Page: https://sanitary-platform.vercel.app/login" -ForegroundColor Cyan
+"https://sanitary-platform.vercel.app" | Set-Clipboard
+Write-Host "`n✅ URL copied to clipboard!" -ForegroundColor Green
 
 Set-Location $rootDir
 Write-Host "`n⚠️  Remember to update CORS_ORIGIN in Render if frontend URL changed!" -ForegroundColor Yellow

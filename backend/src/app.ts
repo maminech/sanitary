@@ -32,8 +32,8 @@ app.use(helmet());
 // CORS - Allow multiple origins
 const allowedOrigins = [
   appConfig.cors.origin,
-  'https://frontend-six-lilac-96.vercel.app',
-  /https:\/\/frontend-.*\.vercel\.app$/,
+  'https://sanitary-platform.vercel.app', // Permanent production domain
+  /https:\/\/frontend-.*\.vercel\.app$/,  // Preview deployments
 ];
 
 app.use(
