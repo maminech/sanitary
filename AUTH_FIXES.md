@@ -124,8 +124,8 @@ const onSubmit = async (data: LoginForm) => {
 ## 🚀 Deployment
 
 ### Current URLs (Permanent)
-- **Frontend**: https://sanitary-aminech.vercel.app
-- **Login**: https://sanitary-aminech.vercel.app/login
+- **Frontend**: https://frontend-aminech990000-6355s-projects.vercel.app
+- **Login**: https://frontend-aminech990000-6355s-projects.vercel.app/login
 - **Backend**: https://sanitary-platform-backend.onrender.com
 
 ### Deploy Script
@@ -162,7 +162,7 @@ Test with these credentials:
    - Password: `Password123!`
 
 ### Test Steps
-1. Open https://sanitary-aminech.vercel.app/login
+1. Open https://frontend-aminech990000-6355s-projects.vercel.app/login
 2. Click one of the "Quick Demo Login" buttons (or enter credentials manually)
 3. Click "Sign In"
 4. Verify you're redirected to `/dashboard` (NOT back to `/login`)

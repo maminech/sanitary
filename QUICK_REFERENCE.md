@@ -23,12 +23,12 @@ git push origin main
 ## 🌐 Live URLs
 
 ### Production (Permanent URLs)
-- **Frontend**: https://sanitary-aminech.vercel.app
-- **Login**: https://sanitary-aminech.vercel.app/login
+- **Frontend**: https://frontend-aminech990000-6355s-projects.vercel.app
+- **Login**: https://frontend-aminech990000-6355s-projects.vercel.app/login
 - **Backend**: https://sanitary-platform-backend.onrender.com
 - **Health**: https://sanitary-platform-backend.onrender.com/health
 
-> **✅ These URLs are permanent!** The custom domain always points to your latest production deployment.
+> **✅ These URLs are permanent!** The Vercel production domain always points to your latest deployment.
 
 ### Demo Accounts
 All passwords: `Password123!`

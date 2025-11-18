@@ -32,8 +32,8 @@ app.use(helmet());
 // CORS - Allow multiple origins
 const allowedOrigins = [
   appConfig.cors.origin,
-  'https://sanitary-aminech.vercel.app', // Permanent production domain
-  /https:\/\/frontend-.*\.vercel\.app$/,  // Preview deployments
+  'https://frontend-aminech990000-6355s-projects.vercel.app', // Production domain
+  /https:\/\/frontend-.*\.vercel\.app$/,  // All Vercel deployments
 ];
 
 app.use(
