@@ -43,12 +43,16 @@ export default function LoginPage() {
       // Set auth state
       setAuth(response.user, response.accessToken, response.refreshToken);
       
-      // Wait for state to persist
-      await new Promise(resolve => setTimeout(resolve, 200));
+      // Wait longer for Zustand persist to complete
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // Verify auth state was set
       const authStorage = localStorage.getItem('auth-storage');
       console.log('Auth storage after login:', authStorage);
+      console.log('Tokens set:', {
+        accessToken: localStorage.getItem('accessToken'),
+        refreshToken: localStorage.getItem('refreshToken')
+      });
       
       toast.success(`Welcome back, ${response.user.firstName}! 🎉`);
       

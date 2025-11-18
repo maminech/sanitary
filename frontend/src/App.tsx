@@ -31,12 +31,22 @@ function App() {
     // Check if store has been rehydrated
     const checkHydration = () => {
       const authStorage = localStorage.getItem('auth-storage');
-      console.log('Auth State:', { isAuthenticated, user: user?.email, authStorage });
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+      
+      console.log('App hydration check:', { 
+        isAuthenticated, 
+        user: user?.email, 
+        hasAuthStorage: !!authStorage,
+        hasAccessToken: !!accessToken,
+        hasRefreshToken: !!refreshToken
+      });
+      
       setIsHydrated(true);
     };
     
-    // Small delay to ensure persist middleware has run
-    const timer = setTimeout(checkHydration, 100);
+    // Longer delay to ensure persist middleware completes
+    const timer = setTimeout(checkHydration, 300);
     return () => clearTimeout(timer);
   }, [isAuthenticated, user]);
   
