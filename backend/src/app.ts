@@ -15,6 +15,7 @@ import authRoutes from './routes/auth.routes';
 import planRoutes from './routes/plan.routes';
 import productRoutes from './routes/product.routes';
 import quoteRoutes from './routes/quote.routes';
+import seedRoutes from './routes/seed.routes';
 
 /**
  * Initialize Express application
@@ -85,7 +86,6 @@ app.use(`${API_PREFIX}/quotes`, quoteRoutes);
 
 // Temporary seed route (remove after first use)
 if (appConfig.server.env === 'production') {
-  const seedRoutes = require('./routes/seed.routes').default;
   app.use(`${API_PREFIX}/seed`, seedRoutes);
 }
 
