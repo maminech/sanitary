@@ -23,28 +23,16 @@ import ProfilePage from './pages/ProfilePage';
 import HelpPage from './pages/HelpPage';
 
 function App() {
-  const { isAuthenticated, user } = useAuthStore();
-  const [isHydrated, setIsHydrated] = React.useState(false);
+  const authState = useAuthStore();
+  const { isAuthenticated, user } = authState;
   
-  // Wait for Zustand to rehydrate from localStorage
   React.useEffect(() => {
-    // Mark as hydrated immediately since we're using SPA navigation
-    setIsHydrated(true);
-    
-    console.log('App loaded - Auth state:', { 
+    console.log('App Auth State:', { 
       isAuthenticated, 
-      user: user?.email
+      userId: user?.id,
+      userEmail: user?.email
     });
-  }, []);
-  
-  // Show loading while hydrating
-  if (!isHydrated) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  }, [isAuthenticated, user]);
 
   return (
     <Routes>

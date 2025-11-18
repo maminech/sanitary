@@ -36,23 +36,16 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: (user, accessToken, refreshToken) => {
-        // Store tokens first
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        
-        // Update state immediately
+        // Update state synchronously - persist middleware will handle localStorage
         set({
           user,
           accessToken,
           refreshToken,
           isAuthenticated: true,
-        }, true); // Force state update
+        });
       },
 
       clearAuth: () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        
         set({
           user: null,
           accessToken: null,
@@ -69,31 +62,6 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({
-        user: state.user,
-        accessToken: state.accessToken,
-        refreshToken: state.refreshToken,
-        isAuthenticated: state.isAuthenticated,
-      }),
-      // Rehydrate tokens from localStorage on app load
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          const accessToken = localStorage.getItem('accessToken');
-          const refreshToken = localStorage.getItem('refreshToken');
-          
-          // Sync tokens from localStorage
-          if (accessToken && refreshToken && state.isAuthenticated) {
-            state.accessToken = accessToken;
-            state.refreshToken = refreshToken;
-          } else if (!accessToken || !refreshToken) {
-            // If tokens missing but marked as authenticated, clear auth
-            state.user = null;
-            state.accessToken = null;
-            state.refreshToken = null;
-            state.isAuthenticated = false;
-          }
-        }
-      },
     }
   )
 );
