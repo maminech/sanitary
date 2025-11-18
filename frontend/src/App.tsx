@@ -28,27 +28,14 @@ function App() {
   
   // Wait for Zustand to rehydrate from localStorage
   React.useEffect(() => {
-    // Check if store has been rehydrated
-    const checkHydration = () => {
-      const authStorage = localStorage.getItem('auth-storage');
-      const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-      
-      console.log('App hydration check:', { 
-        isAuthenticated, 
-        user: user?.email, 
-        hasAuthStorage: !!authStorage,
-        hasAccessToken: !!accessToken,
-        hasRefreshToken: !!refreshToken
-      });
-      
-      setIsHydrated(true);
-    };
+    // Mark as hydrated immediately since we're using SPA navigation
+    setIsHydrated(true);
     
-    // Longer delay to ensure persist middleware completes
-    const timer = setTimeout(checkHydration, 300);
-    return () => clearTimeout(timer);
-  }, [isAuthenticated, user]);
+    console.log('App loaded - Auth state:', { 
+      isAuthenticated, 
+      user: user?.email
+    });
+  }, []);
   
   // Show loading while hydrating
   if (!isHydrated) {

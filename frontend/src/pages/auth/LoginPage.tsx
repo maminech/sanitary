@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,6 +17,7 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const { setAuth } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [showDemo, setShowDemo] = useState(true);
@@ -40,24 +41,14 @@ export default function LoginPage() {
       
       console.log('Login response:', response);
       
-      // Set auth state
+      // Set auth state immediately
       setAuth(response.user, response.accessToken, response.refreshToken);
       
-      // Wait longer for Zustand persist to complete
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Verify auth state was set
-      const authStorage = localStorage.getItem('auth-storage');
-      console.log('Auth storage after login:', authStorage);
-      console.log('Tokens set:', {
-        accessToken: localStorage.getItem('accessToken'),
-        refreshToken: localStorage.getItem('refreshToken')
-      });
-      
+      // Show success message
       toast.success(`Welcome back, ${response.user.firstName}! 🎉`);
       
-      // Force navigation with window.location to ensure state is loaded
-      window.location.href = '/dashboard';
+      // Navigate using React Router (keeps state in memory)
+      navigate('/dashboard', { replace: true });
     } catch (error: any) {
       console.error('Login error:', error);
       toast.error(error.response?.data?.message || 'Invalid credentials');
