@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './stores/authStore';
 
@@ -22,7 +23,31 @@ import ProfilePage from './pages/ProfilePage';
 import HelpPage from './pages/HelpPage';
 
 function App() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const [isHydrated, setIsHydrated] = React.useState(false);
+  
+  // Wait for Zustand to rehydrate from localStorage
+  React.useEffect(() => {
+    // Check if store has been rehydrated
+    const checkHydration = () => {
+      const authStorage = localStorage.getItem('auth-storage');
+      console.log('Auth State:', { isAuthenticated, user: user?.email, authStorage });
+      setIsHydrated(true);
+    };
+    
+    // Small delay to ensure persist middleware has run
+    const timer = setTimeout(checkHydration, 100);
+    return () => clearTimeout(timer);
+  }, [isAuthenticated, user]);
+  
+  // Show loading while hydrating
+  if (!isHydrated) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <Routes>

@@ -2,6 +2,14 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "env": {
+    "VITE_API_URL": "https://sanitary-platform-backend.onrender.com/api/v1"
+  },
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://sanitary-platform-backend.onrender.com/api/v1"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",

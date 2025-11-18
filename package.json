@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "deploy": "pwsh ./deploy.ps1",
+    "deploy:frontend": "cd frontend && vercel --prod --yes",
+    "deploy:backend": "git push"
+  }
+}

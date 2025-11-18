@@ -36,15 +36,17 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: (user, accessToken, refreshToken) => {
+        // Store tokens first
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         
+        // Update state immediately
         set({
           user,
           accessToken,
           refreshToken,
           isAuthenticated: true,
-        });
+        }, true); // Force state update
       },
 
       clearAuth: () => {
